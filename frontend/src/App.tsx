@@ -1,21 +1,24 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material';
-import { AuthProvider } from './contexts/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
-import Login from './pages/Login';
-import Cadastro from './pages/Cadastro';
-import TrocarSenha from './pages/TrocarSenha';
-import Carrinho from './pages/Carrinho';
-import CadastroServico from './pages/CadastroServico';
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { AuthProvider } from "./contexts/AuthContext";
+import PrivateRoute from "./components/PrivateRoute";
+import Header from "./components/Header";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Cadastro from "./pages/Cadastro";
+import TrocarSenha from "./pages/TrocarSenha";
+import Carrinho from "./pages/Carrinho";
+import CadastroServico from "./pages/CadastroServico";
+import Footer from "./components/Footer/Footer";
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2',
+      main: "#1976d2",
     },
     secondary: {
-      main: '#dc004e',
+      main: "#dc004e",
     },
   },
 });
@@ -25,7 +28,9 @@ const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <AuthProvider>
         <BrowserRouter>
+          <Header />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="/trocar-senha" element={<TrocarSenha />} />
@@ -45,8 +50,8 @@ const App: React.FC = () => {
                 </PrivateRoute>
               }
             />
-            <Route path="/" element={<Navigate to="/login" replace />} />
           </Routes>
+          <Footer />
         </BrowserRouter>
       </AuthProvider>
     </ThemeProvider>

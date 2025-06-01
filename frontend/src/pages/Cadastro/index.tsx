@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -7,52 +7,52 @@ import {
   Button,
   Typography,
   Box,
-  Alert
-} from '@mui/material';
-import { clienteService } from '../../services/api';
+  Alert,
+} from "@mui/material";
+import { clienteService } from "../../services/api";
 
 const Cadastro: React.FC = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    nome: '',
-    login: '',
-    senha: '',
-    email: ''
+    nome: "",
+    login: "",
+    senha: "",
+    email: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setSuccess(false);
 
     try {
       const response = await clienteService.cadastrar(formData);
-      
+
       if (response.success) {
         setSuccess(true);
         setTimeout(() => {
-          navigate('/login');
+          navigate("/login");
         }, 2000);
       } else {
-        setError(response.message || 'Erro ao cadastrar cliente');
+        setError(response.message || "Erro ao cadastrar cliente");
       }
     } catch (err) {
-      setError('Erro ao cadastrar cliente. Tente novamente.');
+      setError("Erro ao cadastrar cliente. Tente novamente.");
     }
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" style={{ minHeight: "70vh" }}>
       <Box sx={{ mt: 8 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
@@ -127,7 +127,7 @@ const Cadastro: React.FC = () => {
             <Button
               fullWidth
               variant="text"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate("/login")}
               sx={{ mt: 1 }}
             >
               Voltar para login
@@ -139,4 +139,4 @@ const Cadastro: React.FC = () => {
   );
 };
 
-export default Cadastro; 
+export default Cadastro;

@@ -104,6 +104,9 @@ const Carrinho: React.FC = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Solicitação de Serviços de TI
         </Typography>
+        <Typography variant="h6" gutterBottom marginBottom={4}>
+            Olá, {cliente?.login}
+          </Typography>
 
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>

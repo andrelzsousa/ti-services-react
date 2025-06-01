@@ -24,8 +24,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <AppBar position="static">
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '75vh' }}>
+      {/* <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             TI Services
@@ -43,7 +43,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             Sair
           </Button>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
 
       <Container component="main" sx={{ flexGrow: 1, py: 4 }}>
         {children}
