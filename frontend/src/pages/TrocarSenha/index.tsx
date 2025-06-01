@@ -46,6 +46,8 @@ const TrocarSenha: React.FC = () => {
         formData.senhaAtual,
         formData.novaSenha
       );
+
+      console.log(response)
       
       if (response.success) {
         setSuccess(true);
@@ -83,7 +85,7 @@ const TrocarSenha: React.FC = () => {
           <form onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="Login"
+              label="Email"
               name="login"
               value={formData.login}
               onChange={handleChange}

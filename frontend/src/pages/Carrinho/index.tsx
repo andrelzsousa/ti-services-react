@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Paper,
   Typography,
@@ -12,25 +12,26 @@ import {
   TableRow,
   Button,
   Alert,
-  IconButton
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { servicoTIService, solicitacaoService } from '../../services/api';
-import { useAuth } from '../../contexts/AuthContext';
-import { ServicoTI, SolicitacaoServico } from '../../types';
-import Layout from '../../components/Layout';
+  IconButton,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { servicoTIService, solicitacaoService } from "../../services/api";
+import { useAuth } from "../../contexts/AuthContext";
+import { ServicoTI, SolicitacaoServico } from "../../types";
+import Layout from "../../components/Layout";
 
 const Carrinho: React.FC = () => {
   const navigate = useNavigate();
   const { cliente } = useAuth();
+
   const [servicos, setServicos] = useState<ServicoTI[]>([]);
   const [solicitacoes, setSolicitacoes] = useState<SolicitacaoServico[]>([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     if (!cliente) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
 
@@ -45,7 +46,7 @@ const Carrinho: React.FC = () => {
         setServicos(response.data);
       }
     } catch (err) {
-      setError('Erro ao carregar serviços');
+      setError("Erro ao carregar serviços");
     }
   };
 
@@ -53,12 +54,13 @@ const Carrinho: React.FC = () => {
     if (!cliente) return;
 
     try {
-      const response = await solicitacaoService.listarPorCliente(cliente.login);
+      // @ts-ignore
+      const response = await solicitacaoService.listarPorCliente(cliente.login.login);
       if (response.success && response.data) {
         setSolicitacoes(response.data);
       }
     } catch (err) {
-      setError('Erro ao carregar solicitações');
+      setError("Erro ao carregar solicitações");
     }
   };
 
@@ -69,32 +71,36 @@ const Carrinho: React.FC = () => {
       clienteId: cliente.id!,
       servicoId: servico.id!,
       dataSolicitacao: new Date().toISOString(),
-      status: 'Pendente'
+      status: "Pendente",
     };
 
-    setSolicitacoes(prev => [...prev, novaSolicitacao]);
+    setSolicitacoes((prev) => [...prev, novaSolicitacao]);
   };
 
   const removerSolicitacao = (index: number) => {
-    setSolicitacoes(prev => prev.filter((_, i) => i !== index));
+    setSolicitacoes((prev) => prev.filter((_, i) => i !== index));
   };
 
   const salvarSolicitacoes = async () => {
     if (!cliente) return;
 
     try {
-      const response = await solicitacaoService.atualizar(cliente.login, solicitacoes);
-      
+      const response = await solicitacaoService.atualizar(
+        // @ts-ignore
+        cliente.login.login,
+        solicitacoes
+      );
+
       if (response.success) {
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
         }, 3000);
       } else {
-        setError(response.message || 'Erro ao salvar solicitações');
+        setError(response.message || "Erro ao salvar solicitações");
       }
     } catch (err) {
-      setError('Erro ao salvar solicitações');
+      setError("Erro ao salvar solicitações");
     }
   };
 
@@ -105,8 +111,9 @@ const Carrinho: React.FC = () => {
           Solicitação de Serviços de TI
         </Typography>
         <Typography variant="h6" gutterBottom marginBottom={4}>
-            Olá, {cliente?.login}
-          </Typography>
+          {/* @ts-ignore */}
+          Olá, {cliente?.login.nome}
+        </Typography>
 
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
@@ -172,12 +179,16 @@ const Carrinho: React.FC = () => {
               </TableHead>
               <TableBody>
                 {solicitacoes.map((solicitacao, index) => {
-                  const servico = servicos.find(s => s.id === solicitacao.servicoId);
+                  const servico = servicos.find(
+                    (s) => s.id === solicitacao.servicoId
+                  );
                   return (
                     <TableRow key={index}>
                       <TableCell>{servico?.nome}</TableCell>
                       <TableCell>
-                        {new Date(solicitacao.dataSolicitacao).toLocaleDateString()}
+                        {new Date(
+                          solicitacao.dataSolicitacao
+                        ).toLocaleDateString()}
                       </TableCell>
                       <TableCell>{solicitacao.status}</TableCell>
                       <TableCell>
@@ -196,7 +207,7 @@ const Carrinho: React.FC = () => {
           </TableContainer>
         </Box>
 
-        <Box sx={{ mt: 4, display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ mt: 4, display: "flex", justifyContent: "flex-end" }}>
           <Button
             variant="contained"
             color="primary"
@@ -211,4 +222,4 @@ const Carrinho: React.FC = () => {
   );
 };
 
-export default Carrinho; 
+export default Carrinho;

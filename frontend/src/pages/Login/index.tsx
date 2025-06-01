@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -7,48 +7,50 @@ import {
   Button,
   Typography,
   Box,
-  Alert
-} from '@mui/material';
-import { authService } from '../../services/api';
-import { useAuth } from '../../contexts/AuthContext';
+  Alert,
+} from "@mui/material";
+import { authService } from "../../services/api";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
-    login: '',
-    senha: ''
+    login: "",
+    senha: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     try {
       const response = await authService.login(formData.login, formData.senha);
-      
+      // console.log(response.data);
+
       if (response.success) {
-        login({ login: formData.login } as any);
-        navigate('/carrinho');
+        // @ts-ignore
+        login({ login: response.data } as any);
+        navigate("/carrinho");
       } else {
-        setError('Login ou senha inválidos');
+        setError("Login ou senha inválidos");
       }
     } catch (err) {
-      setError('Erro ao realizar login. Tente novamente.');
+      setError("Erro ao realizar login. Tente novamente.");
     }
   };
 
   return (
-    <Container maxWidth="sm" style={{ minHeight: '70vh' }}>
+    <Container maxWidth="sm" style={{ minHeight: "70vh" }}>
       <Box sx={{ mt: 8 }}>
         <Paper elevation={3} sx={{ p: 4 }}>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
@@ -96,7 +98,7 @@ const Login: React.FC = () => {
             <Button
               fullWidth
               variant="text"
-              onClick={() => navigate('/cadastro')}
+              onClick={() => navigate("/cadastro")}
               sx={{ mt: 1 }}
             >
               Criar nova conta
@@ -105,7 +107,7 @@ const Login: React.FC = () => {
             <Button
               fullWidth
               variant="text"
-              onClick={() => navigate('/trocar-senha')}
+              onClick={() => navigate("/trocar-senha")}
               sx={{ mt: 1 }}
             >
               Trocar senha
@@ -117,4 +119,4 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login; 
+export default Login;

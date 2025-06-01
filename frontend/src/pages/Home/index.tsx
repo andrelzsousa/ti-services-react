@@ -119,8 +119,6 @@ const Home: React.FC = () => {
           </table>
         </section>
       </main>
-
-      
     </>
   );
 };

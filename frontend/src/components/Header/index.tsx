@@ -25,7 +25,17 @@ const Header: React.FC = () => {
             </>
           ) : (
             <>
-              <Link to="/carrinho" id="service-link">
+              <Link
+                to="/carrinho"
+                id="service-link"
+                style={{
+                  marginRight: "10px",
+                  backgroundColor: "blue",
+                  color: "white",
+                  padding: "10px",
+                  borderRadius: "5px",
+                }}
+              >
                 Solicitar Serviço
               </Link>
               <button onClick={logout} id="logout-btn" className="logout-btn">
