@@ -36,7 +36,20 @@ const Header: React.FC = () => {
                   borderRadius: "5px",
                 }}
               >
-                Solicitar Serviço
+                Carrinho
+              </Link>
+              <Link
+                to="/cadastro-servico"
+                id="service-link"
+                style={{
+                  marginRight: "10px",
+                  backgroundColor: "blue",
+                  color: "white",
+                  padding: "10px",
+                  borderRadius: "5px",
+                }}
+              >
+                Cadastrar Serviço
               </Link>
               <button onClick={logout} id="logout-btn" className="logout-btn">
                 Sair
